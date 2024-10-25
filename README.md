@@ -1,3 +1,4 @@
+
 # LEARNING SHADERS
 
 This repo is more like my learning progress in the world of shaders. 
@@ -6,3 +7,7 @@ This repo is more like my learning progress in the world of shaders.
 ## Lessons Learned
 - Mathematical Surfaces
 
+
+## Screenshots  
+
+![Wave](images/Wave.png)
