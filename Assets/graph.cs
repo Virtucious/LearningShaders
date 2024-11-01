@@ -13,36 +13,33 @@ public class graph : MonoBehaviour
 
     private void Awake()
     {
-        points = new Transform[resolution * resolution];
-        var position = Vector3.zero;
         float step = 2f / resolution;
         var scale = Vector3.one * step;
-        for (int i = 0, x = 0, z = 0; i < points.Length; i++, x++)
+        points = new Transform[resolution * resolution];
+        for(int i = 0; i < points.Length; i++)
         {
-            if (x == resolution)
-            {
-                x = 0;
-                z++;
-            }
-            points[i] = Instantiate(point);
-            points[i].localScale = scale;
-            position.x = (x + 0.5f) * step - 1f;
-            position.z = (z + 0.5f) * step - 1f;
-            points[i].localPosition = position;
-            points[i].transform.SetParent(transform, false);
+            Transform pointTransform = points[i] = Instantiate(point);
+            pointTransform.localScale = scale;
+            points[i].SetParent(transform, false);
         }
     }
 
     private void Update()
     {
-        float time = Time.time;
         FunctionLibrary.Function f = FunctionLibrary.GetFunction(function);
-        for (int i = 0; i < points.Length; i++)
+        float time = Time.time;
+        float step = 2f/resolution;
+        float v = 0.5f * step - 1f;
+        for(int i = 0, x = 0, z = 0; i < points.Length; i++, x++)
         {
-            Transform point = points[i];
-            Vector3 positionPoint = point.localPosition;
-            positionPoint.y = f(positionPoint.x, positionPoint.z, time);
-            point.localPosition = positionPoint;
+            if(x == resolution)
+            {
+                x = 0;
+                z++;
+                v = (z + 0.5f) * step - 1f;
+            }
+            float u = (x + 0.5f) * step - 1f;
+            points[i].localPosition = f(u, v, time);
         }
     }
 }
